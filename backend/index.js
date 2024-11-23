@@ -11,11 +11,15 @@ app.use(cors());
 
 
 app.post("/register", async (req, res) => {
-        let user = new User(req.body)
-        let result = await user.save();
-        result = result.toObject();
-        delete result.password;
-        res.send(result);
+        if (req.body.password && req.body.email && req.body.name) {
+                let user = new User(req.body)
+                let result = await user.save();
+                result = result.toObject();
+                delete result.password;
+                res.send(result);
+        } else {
+                res.send({ result: "Enter Complete details" })
+        }
 })
 app.post("/login", async (req, res) => {
         if (req.body.password && req.body.email) {
@@ -65,6 +69,16 @@ app.put("/product/:id", async (req, res) => {
                         $set: req.body
                 }
         )
+        res.send(result)
+})
+app.get("/search/:key", async (req, res) => {
+        let result = await Product.find({
+                "$or": [
+                        { name: { $regex: req.params.key } },
+                        { company: { $regex: req.params.key } },
+                        { category: { $regex: req.params.key } },
+                ]
+        })
         res.send(result)
 })
 app.listen(5000);

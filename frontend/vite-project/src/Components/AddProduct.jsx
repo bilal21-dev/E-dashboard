@@ -84,6 +84,7 @@
 
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AddProduct = () => {
     const [name, setName] = useState("")
@@ -91,6 +92,7 @@ const AddProduct = () => {
     const [company, setCompany] = useState("")
     const [category, setCategory] = useState("")
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
 
     const handleData = async (e) => {
         e.preventDefault();
@@ -106,6 +108,7 @@ const AddProduct = () => {
             category,
         });
         result = result.data;
+        navigate("/")
     }
 
     return (

@@ -9,23 +9,19 @@ const Signup = () => {
     const navigate = useNavigate();
     const collectData = async (e) => {
         e.preventDefault();
-        // let result = await fetch('http://localhost:5000/register', {
-        //     method: 'Post',
-        //     body: JSON.stringify({name,email,password}),
-        //     headers: {
-        //         'Content-Type': 'application/json' 
-        //     }
-        // });
         let result = await axios.post('http://localhost:5000/register', {
             name,
             email,
             password
         });
         result = result.data;
-        if (result) {
-            navigate('/');
+        if (result && result.result === "Enter Complete details") {
+            alert("Enter Complete details")
         }
-        localStorage.setItem("user", JSON.stringify(result));
+        else {
+            navigate('/');
+            localStorage.setItem("user", JSON.stringify(result));
+        }
     }
     useEffect(() => {
         const auth = localStorage.getItem("user");
