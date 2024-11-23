@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -48,7 +49,7 @@ const ProductList = () => {
                         <li className='border border-red-500 px-7 w-[150px] text-center py-2'>{item.name}</li>
                         <li className='border border-red-500 px-7 w-[150px] text-center py-2'>{item.price}</li>
                         <li className='border border-red-500 px-7 w-[150px] text-center py-2'>{item.category}</li>
-                        <li className='border border-red-500 px-7 w-[150px] text-center py-2'><button className="bg-red-500 px-2 rounded-md text-white" onClick={()=>deleteProduct(item._id)}>Delete</button></li>
+                        <li className='border border-red-500 px-7 w-[150px] text-center py-2 flex align-middle justify-center gap-2'><button className="bg-red-500 px-2 rounded-md text-white" onClick={()=>deleteProduct(item._id)}>Delete</button><Link className='bg-gray-500 px-2 rounded-md text-white' to={`/update/${item._id}`}>Update</Link></li>
 
                     </ul>
                 ))
