@@ -3,30 +3,33 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const navigation =useNavigate()
+    const navigation = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    useEffect(()=>{
+    useEffect(() => {
         const auth = localStorage.getItem('user');
-        if(auth){
+        if (auth) {
             navigation("/")
         }
     })
-    const handleLogin=async(e)=>{
-       e.preventDefault();
-       let result = await axios.post('http://localhost:5000/login',{
-        email,
-        password
-       })
-       result = result.data
-       console.log(result);
-       if(result){
-          localStorage.setItem('user',JSON.stringify(result))
-          navigation("/")
-       }else{
-          alert("Enter correct details");
-       }
-       
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        let result = await axios.post('http://localhost:5000/login', {
+            email,
+            password
+        })
+        result = result.data
+        console.log(result);
+        if (result && result.result === 'No record') {
+            alert("No user exist");
+        } else if (result && result._id) {
+            localStorage.setItem('user', JSON.stringify(result))
+            navigation("/")
+        }
+        else {
+            alert("enter correct details")
+        }
+
     }
     return (
         <div className="flex items-center justify-center align-middle mt-[70px]">
